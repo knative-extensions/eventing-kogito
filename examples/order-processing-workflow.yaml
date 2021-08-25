@@ -1,0 +1,12 @@
+# see sinks directory. use inmemory-channel.yaml to create the sink (or you can change it to any other sink you wish)
+apiVersion: kogito.knative.dev/v1alpha1
+kind: KogitoSource
+metadata:
+  name: kogito-order-processing
+spec:
+  image: quay.io/ricardozanini/order-processing-workflow:latest
+  sink:
+    ref:
+      apiVersion: messaging.knative.dev/v1
+      kind: InMemoryChannel
+      name: kogito-channel
