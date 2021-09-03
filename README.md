@@ -40,29 +40,6 @@ Before installing the Knative Eventing Kogito Source, you must meet the followin
    have [OpenShift Serverless Platform](https://www.openshift.com/learn/topics/serverless) available)
 2. You have [installed the Kogito Operator](https://github.com/kiegroup/kogito-operator)
 
-### Deploying the Kogito Source
-
-You will need administrative privileges in your cluster to install all the required resources.
-
-By running the following command you will create the namespace `knative-kogito` in your cluster and all the resources
-necessary to run the Kogito Source:
-
-```shell
-kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/kogito-source.yaml
-```
-
-Check if everything is running with:
-
-```shell
-kubectl get pods -n knative-kogito
-
-NAME                                        READY   STATUS    RESTARTS   AGE
-kogito-source-controller-7689d9dc6d-4l5hv   2/2     Running   1          86m
-kogito-source-webhook-54b7c87ff9-5r46h      1/1     Running   0          127m
-```
-
-Now you can start deploying the [examples](./examples)!
-
 ## Roadmap
 
 To learn more about future features, check our [Roadmap](ROADMAP.md).
