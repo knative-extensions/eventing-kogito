@@ -34,10 +34,10 @@ jobs:
           - gofmt
 
         include:
-          - tool: gofmt
-            options: -s
-          - tool: goimports
-            importpath: golang.org/x/tools/cmd/goimports
+        - tool: gofmt
+          options: -s
+        - tool: goimports
+          importpath: golang.org/x/tools/cmd/goimports
 
     steps:
       - name: Set up Go 1.16.x
@@ -100,7 +100,7 @@ jobs:
 
       - name: Install Tools
         env:
-          WOKE_VERSION: v0.8.0
+          WOKE_VERSION: v0.13.0
         run: |
           TEMP_PATH="$(mktemp -d)"
           cd $TEMP_PATH
@@ -127,7 +127,7 @@ jobs:
         if: steps.golangci_configuration.outputs.files_exists == 'true'
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.40
+          version: v1.42
 
       - name: misspell
         shell: bash
@@ -169,7 +169,7 @@ jobs:
           echo '::group:: Flagging trailing whitespace with reviewdog 🐶 ...'
           # Don't fail because of grep
           set +o pipefail
-
+          
           # Exclude generated and vendored files, plus some legacy
           # paths until we update all .gitattributes
           git ls-files |

@@ -30,15 +30,15 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         extension:
-          - go
-          - sh
+        - go
+        - sh
 
         # Map between extension and human-readable name.
         include:
-          - extension: go
-            language: Go
-          - extension: sh
-            language: Bash
+        - extension: go
+          language: Go
+        - extension: sh
+          language: Bash
 
     steps:
 
