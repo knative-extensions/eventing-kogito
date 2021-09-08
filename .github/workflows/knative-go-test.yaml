@@ -31,8 +31,8 @@ jobs:
     name: Unit Tests
     strategy:
       matrix:
-        go-version: [ 1.16.x ]
-        platform: [ ubuntu-latest ]
+        go-version: [1.16.x]
+        platform: [ubuntu-latest]
 
     runs-on: ${{ matrix.platform }}
 
@@ -50,10 +50,11 @@ jobs:
           fetch-depth: 0
 
       - name: Merge upstream
+        if: github.event_name == 'pull_request'
         run: |
           git remote add upstream https://github.com/${{ github.repository }}.git
-          git fetch upstream ${{ github.base_ref == null && github.ref || github.base_ref }}
-          git pull --no-rebase --no-commit upstream ${{ github.base_ref == null && github.ref || github.base_ref }}
+          git fetch upstream ${{ github.base_ref }}
+          git pull --no-rebase --no-commit upstream ${{ github.base_ref }}
         shell: bash
 
       - name: Check for .codecov.yaml
