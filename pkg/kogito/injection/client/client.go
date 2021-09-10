@@ -20,25 +20,36 @@ package client
 
 import (
 	context "context"
+	json "encoding/json"
+	fmt "fmt"
 
 	versioned "github.com/kiegroup/kogito-operator/client/clientset/versioned"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	discovery "k8s.io/client-go/discovery"
+	dynamic "k8s.io/client-go/dynamic"
 	rest "k8s.io/client-go/rest"
 	injection "knative.dev/pkg/injection"
+	dynamicclient "knative.dev/pkg/injection/clients/dynamicclient"
 	logging "knative.dev/pkg/logging"
 )
 
 func init() {
-	injection.Default.RegisterClient(withClient)
+	injection.Default.RegisterClient(withClientFromConfig)
 	injection.Default.RegisterClientFetcher(func(ctx context.Context) interface{} {
 		return Get(ctx)
 	})
+	injection.Dynamic.RegisterDynamicClient(withClientFromDynamic)
 }
 
 // Key is used as the key for associating information with a context.Context.
 type Key struct{}
 
-func withClient(ctx context.Context, cfg *rest.Config) context.Context {
+func withClientFromConfig(ctx context.Context, cfg *rest.Config) context.Context {
 	return context.WithValue(ctx, Key{}, versioned.NewForConfigOrDie(cfg))
+}
+
+func withClientFromDynamic(ctx context.Context) context.Context {
+	return context.WithValue(ctx, Key{}, &wrapClient{dyn: dynamicclient.Get(ctx)})
 }
 
 // Get extracts the versioned.Interface client from the context.
@@ -54,4 +65,25 @@ func Get(ctx context.Context) versioned.Interface {
 		}
 	}
 	return untyped.(versioned.Interface)
+}
+
+type wrapClient struct {
+	dyn dynamic.Interface
+}
+
+var _ versioned.Interface = (*wrapClient)(nil)
+
+func (w *wrapClient) Discovery() discovery.DiscoveryInterface {
+	panic("Discovery called on dynamic client!")
+}
+
+func convert(from interface{}, to runtime.Object) error {
+	bs, err := json.Marshal(from)
+	if err != nil {
+		return fmt.Errorf("Marshal() = %w", err)
+	}
+	if err := json.Unmarshal(bs, to); err != nil {
+		return fmt.Errorf("Unmarshal() = %w", err)
+	}
+	return nil
 }

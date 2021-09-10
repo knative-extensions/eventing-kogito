@@ -8,13 +8,13 @@ require (
 	github.com/kiegroup/kogito-operator/api v1.8.0
 	github.com/kiegroup/kogito-operator/client v1.8.0
 	github.com/stretchr/testify v1.7.0
-	go.uber.org/zap v1.17.0
-	k8s.io/api v0.20.7
-	k8s.io/apimachinery v0.20.7
-	k8s.io/client-go v0.20.7
-	knative.dev/eventing v0.23.1-0.20210623160544-0cb787308255
-	knative.dev/hack v0.0.0-20210622141627-e28525d8d260
-	knative.dev/pkg v0.0.0-20210622173328-dd0db4b05c80
+	go.uber.org/zap v1.19.0
+	k8s.io/api v0.21.4
+	k8s.io/apimachinery v0.21.4
+	k8s.io/client-go v0.21.4
+	knative.dev/eventing v0.25.1-0.20210909163359-316e14d7fbc2
+	knative.dev/hack v0.0.0-20210806075220-815cd312d65c
+	knative.dev/pkg v0.0.0-20210909165259-d4505c660535
 )
 
 replace (
