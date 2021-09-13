@@ -18,6 +18,7 @@ package kogito
 
 import (
 	"context"
+	kogitoclient "knative.dev/eventing-kogito/pkg/kogito/injection/client"
 
 	reconcilersource "knative.dev/eventing/pkg/reconciler/source"
 
@@ -35,8 +36,7 @@ import (
 
 	kogitosourceinformer "knative.dev/eventing-kogito/pkg/client/injection/informers/kogito/v1alpha1/kogitosource"
 	"knative.dev/eventing-kogito/pkg/client/injection/reconciler/kogito/v1alpha1/kogitosource"
-	kogitoclient "knative.dev/eventing-kogito/pkg/kogito/injection/client"
-	kogitoruntimeinformer "knative.dev/eventing-kogito/pkg/kogito/notgen/injection/informers/app/v1beta1/kogitoruntimes"
+	kogitoruntimeinformer "knative.dev/eventing-kogito/pkg/kogito/injection/informers/app/v1beta1/kogitoruntime"
 	kubeclient "knative.dev/pkg/client/injection/kube/client"
 )
 
@@ -60,7 +60,7 @@ func NewController(
 
 	impl := kogitosource.NewImpl(ctx, r)
 
-	r.sinkResolver = resolver.NewURIResolver(ctx, impl.EnqueueKey)
+	r.sinkResolver = resolver.NewURIResolverFromTracker(ctx, impl.Tracker)
 
 	logging.FromContext(ctx).Info("Setting up event handlers")
 

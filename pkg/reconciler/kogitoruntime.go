@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/kiegroup/kogito-operator/api/v1beta1"
+	"github.com/kiegroup/kogito-operator/apis/app/v1beta1"
 	kogitoclient "github.com/kiegroup/kogito-operator/client/clientset/versioned"
 	appsv1 "k8s.io/api/apps/v1"
 

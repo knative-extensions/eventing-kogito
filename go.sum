@@ -445,10 +445,10 @@ github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51/go.mod h1:CzGEWj7cYgsdH8dAjBGEr58BoE7ScuLd+fwFZ44+/x8=
 github.com/kelseyhightower/envconfig v1.4.0 h1:Im6hONhd3pLkfDFsbRgu68RDNkGF1r3dvMUtDTo2cv8=
 github.com/kelseyhightower/envconfig v1.4.0/go.mod h1:cccZRl6mQpaq41TPp5QxidR+Sa3axMbJDNb//FQX6Gg=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210702132500-6452df3eb8be h1:yWt8xMd2wOfzqEldgz/On3kXzQiugM/F8rtygfepyQ0=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210702132500-6452df3eb8be/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
-github.com/kiegroup/kogito-operator/client v0.0.0-20210702132500-6452df3eb8be h1:Dpj0zDJvevFt9IjOiG4aof+k1Em36hV1LtLKWQ0FcP0=
-github.com/kiegroup/kogito-operator/client v0.0.0-20210702132500-6452df3eb8be/go.mod h1:u631rCSsM1nKUWfCddRAGhrtGPT/s0nAQOSZ/gv/mpg=
+github.com/kiegroup/kogito-operator/apis v0.0.0-20210913124655-178e5d4b8327 h1:vikbeUCd4Hu4thnXQ90ctiqNWFy9Jyogg16olYGuQhM=
+github.com/kiegroup/kogito-operator/apis v0.0.0-20210913124655-178e5d4b8327/go.mod h1:ZXowL/XooolurpDJ36lN9qCCVePd+0ebIhggb8ZRC5M=
+github.com/kiegroup/kogito-operator/client v0.0.0-20210913124655-178e5d4b8327 h1:OZh4bzTqKYcyb4iJULvBZ9gJmRwYRiVQzX602t4FAzw=
+github.com/kiegroup/kogito-operator/client v0.0.0-20210913124655-178e5d4b8327/go.mod h1:3pZ701+xhN+dYIxDoN+YBLh7OdG7v+ERWdNHxFHfVeI=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
