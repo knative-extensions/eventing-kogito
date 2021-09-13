@@ -18,6 +18,7 @@ package kogito
 
 import (
 	"context"
+
 	kogitoclient "knative.dev/eventing-kogito/pkg/kogito/injection/client"
 
 	reconcilersource "knative.dev/eventing/pkg/reconciler/source"
