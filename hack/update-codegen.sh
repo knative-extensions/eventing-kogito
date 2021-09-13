@@ -32,8 +32,8 @@ echo "=== Update Codegen for ${MODULE_NAME}"
     VERSIONED_CLIENTSET_PKG="github.com/kiegroup/kogito-operator/client/clientset/versioned" \
     EXTERNAL_INFORMER_PKG="github.com/kiegroup/kogito-operator/client/informers/externalversions" \
     ${KNATIVE_CODEGEN_PKG}/hack/generate-knative.sh "injection" \
-    knative.dev/eventing-kogito/pkg/client/kogito github.com/kiegroup/kogito-operator/api \
-    ":v1beta1" \
+    github.com/kiegroup/kogito-operator/client github.com/kiegroup/kogito-operator/apis \
+    "app:v1beta1" \
     --go-header-file ${REPO_ROOT_DIR}/hack/boilerplate/boilerplate.go.txt
 )
 
