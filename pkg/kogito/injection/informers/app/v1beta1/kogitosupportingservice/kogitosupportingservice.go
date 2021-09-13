@@ -21,7 +21,14 @@ package kogitosupportingservice
 import (
 	context "context"
 
+	apisappv1beta1 "github.com/kiegroup/kogito-operator/apis/app/v1beta1"
+	versioned "github.com/kiegroup/kogito-operator/client/clientset/versioned"
 	v1beta1 "github.com/kiegroup/kogito-operator/client/informers/externalversions/app/v1beta1"
+	appv1beta1 "github.com/kiegroup/kogito-operator/client/listers/app/v1beta1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	labels "k8s.io/apimachinery/pkg/labels"
+	cache "k8s.io/client-go/tools/cache"
+	client "knative.dev/eventing-kogito/pkg/kogito/injection/client"
 	factory "knative.dev/eventing-kogito/pkg/kogito/injection/informers/factory"
 	controller "knative.dev/pkg/controller"
 	injection "knative.dev/pkg/injection"
@@ -30,6 +37,7 @@ import (
 
 func init() {
 	injection.Default.RegisterInformer(withInformer)
+	injection.Dynamic.RegisterDynamicInformer(withDynamicInformer)
 }
 
 // Key is used for associating the Informer inside the context.Context.
@@ -41,6 +49,11 @@ func withInformer(ctx context.Context) (context.Context, controller.Informer) {
 	return context.WithValue(ctx, Key{}, inf), inf.Informer()
 }
 
+func withDynamicInformer(ctx context.Context) context.Context {
+	inf := &wrapper{client: client.Get(ctx)}
+	return context.WithValue(ctx, Key{}, inf)
+}
+
 // Get extracts the typed informer from the context.
 func Get(ctx context.Context) v1beta1.KogitoSupportingServiceInformer {
 	untyped := ctx.Value(Key{})
@@ -49,4 +62,45 @@ func Get(ctx context.Context) v1beta1.KogitoSupportingServiceInformer {
 			"Unable to fetch github.com/kiegroup/kogito-operator/client/informers/externalversions/app/v1beta1.KogitoSupportingServiceInformer from context.")
 	}
 	return untyped.(v1beta1.KogitoSupportingServiceInformer)
+}
+
+type wrapper struct {
+	client versioned.Interface
+
+	namespace string
+}
+
+var _ v1beta1.KogitoSupportingServiceInformer = (*wrapper)(nil)
+var _ appv1beta1.KogitoSupportingServiceLister = (*wrapper)(nil)
+
+func (w *wrapper) Informer() cache.SharedIndexInformer {
+	return cache.NewSharedIndexInformer(nil, &apisappv1beta1.KogitoSupportingService{}, 0, nil)
+}
+
+func (w *wrapper) Lister() appv1beta1.KogitoSupportingServiceLister {
+	return w
+}
+
+func (w *wrapper) KogitoSupportingServices(namespace string) appv1beta1.KogitoSupportingServiceNamespaceLister {
+	return &wrapper{client: w.client, namespace: namespace}
+}
+
+func (w *wrapper) List(selector labels.Selector) (ret []*apisappv1beta1.KogitoSupportingService, err error) {
+	lo, err := w.client.AppV1beta1().KogitoSupportingServices(w.namespace).List(context.TODO(), v1.ListOptions{
+		LabelSelector: selector.String(),
+		// TODO(mattmoor): Incorporate resourceVersion bounds based on staleness criteria.
+	})
+	if err != nil {
+		return nil, err
+	}
+	for idx := range lo.Items {
+		ret = append(ret, &lo.Items[idx])
+	}
+	return ret, nil
+}
+
+func (w *wrapper) Get(name string) (*apisappv1beta1.KogitoSupportingService, error) {
+	return w.client.AppV1beta1().KogitoSupportingServices(w.namespace).Get(context.TODO(), name, v1.GetOptions{
+		// TODO(mattmoor): Incorporate resourceVersion bounds based on staleness criteria.
+	})
 }
