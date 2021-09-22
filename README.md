@@ -231,7 +231,7 @@ object that is a representation of your service in the cluster. You can also que
 kubectl get kogitoruntimes
 
 NAME                         REPLICAS   IMAGE                                                    ENDPOINT
-ks-kogito-order-processing   1          quay.io/ricardozanini/order-processing-workflow:latest   
+ks-kogito-order-processing   1          quay.io/kiegroup/order-processing-workflow:latest
 ```
 
 The source is ready to produce events to the sink defined in the service.
