@@ -114,9 +114,9 @@ Data,
 
 This is the structure of a produced `CloudEvent`:
 
-| Attribute         | Value                     | Notes | 
+| Attribute         | Value                     | Notes |
 | ----------------- | ------------------------- | ----- |
-| `type`            | **Serverless Workflow:** it takes the type defined in the workflow [event definition](https://github.com/serverlessworkflow/specification/blob/main/specification.md#event-definition) <br/>**BPMN:** uses the message trigger name defined in the process | | 
+| `type`            | **Serverless Workflow:** it takes the type defined in the workflow [event definition](https://github.com/serverlessworkflow/specification/blob/main/specification.md#event-definition) <br/>**BPMN:** uses the message trigger name defined in the process | |
 | `source`          | BPMN and Serverless Workflow have  a constant `/process/` followed by the BPMN process id or workflow id, respectively. | |
 | `id`              | An unique generated ID | |
 | `data`            | Contains the domain model of the event produced by the service. It depends on the business model defined by the developer. | |
@@ -170,7 +170,7 @@ You can install the source using `kubectl` CLI:
 
 ```shell
 VERSION=0.26.0
-kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/releases/download/v${VERSION}/kogito.yaml 
+kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/releases/download/v${VERSION}/kogito.yaml
 ```
 
 Replace the `VERSION` variable with the desired target version.
@@ -198,11 +198,9 @@ Now you can start deploying the [examples](./examples)!
    Kogito Service
 2. Create your Kogito project locally. You can use our guide
    for [BPMN](https://docs.jboss.org/kogito/release/latest/html_single/#con-knative-eventing_kogito-developing-process-services)
-   or [Serverless Workflow](https://docs.jboss.org/kogito/release/latest/html_single/#chap-kogito-orchestrating-serverless)
-   .
+   or [Serverless Workflow](https://docs.jboss.org/kogito/release/latest/html_single/#chap-kogito-orchestrating-serverless).
 3. Build the image with your project. See
-   an [example here](https://github.com/kiegroup/kogito-examples/blob/stable/serverless-workflow-order-processing/Dockerfile)
-   .
+   an [example here](https://github.com/kiegroup/kogito-examples/blob/stable/serverless-workflow-order-processing/Dockerfile).
 4. Push your image to a registry where your cluster can access it.
 5. Create the Kogito Source CR. See [this example](./examples/kogito-source-reference.yaml) to be used as a reference to
    create your own.
