@@ -1,5 +1,7 @@
 # Knative Eventing Kogito
 
+**[These components are ALPHA](https://github.com/knative/community/tree/main/mechanics/MATURITY-LEVELS.md)**
+
 [![GoDoc](https://godoc.org/knative-sandbox/eventing-kogito?status.svg)](https://godoc.org/knative-sandbox/eventing-kogito)
 [![Go Report Card](https://goreportcard.com/badge/knative-sandbox/eventing-kogito)](https://goreportcard.com/report/knative-sandbox/eventing-kogito)
 [![Releases](https://img.shields.io/github/release-pre/knative-sandbox/eventing-kogito.svg)](https://github.com/knative-sandbox/eventing-kogito/releases)
