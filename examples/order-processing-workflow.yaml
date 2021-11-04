@@ -4,7 +4,10 @@ kind: KogitoSource
 metadata:
   name: kogito-order-processing
 spec:
-  image: quay.io/ricardozanini/order-processing-workflow:latest
+  subject:
+    apiVesion: serving.knative.dev/v1
+    kind: Service
+    name: kogito-order-processing
   sink:
     ref:
       apiVersion: messaging.knative.dev/v1

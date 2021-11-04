@@ -46,8 +46,16 @@ func (sspec *KogitoSourceSpec) Validate(ctx context.Context) *apis.FieldError {
 		errs = errs.Also(apis.ErrMissingField("serviceAccountName"))
 	}
 
-	if sspec.Image == "" {
-		errs = errs.Also(apis.ErrMissingField("image"))
+	if sspec.BindingSpec.Subject.Name == "" {
+		errs = errs.Also(apis.ErrMissingField("subject.name"))
+	}
+
+	if sspec.BindingSpec.Subject.Kind == "" {
+		errs = errs.Also(apis.ErrMissingField("subject.kind"))
+	}
+
+	if sspec.BindingSpec.Subject.APIVersion == "" {
+		errs = errs.Also(apis.ErrMissingField("subject.apiVersion"))
 	}
 
 	return errs

@@ -90,7 +90,7 @@ func (in *KogitoSourceList) DeepCopyObject() runtime.Object {
 func (in *KogitoSourceSpec) DeepCopyInto(out *KogitoSourceSpec) {
 	*out = *in
 	in.SourceSpec.DeepCopyInto(&out.SourceSpec)
-	in.KogitoRuntimeSpec.DeepCopyInto(&out.KogitoRuntimeSpec)
+	in.BindingSpec.DeepCopyInto(&out.BindingSpec)
 	return
 }
 

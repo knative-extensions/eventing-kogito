@@ -18,9 +18,9 @@ package v1alpha1
 
 import (
 	"context"
+	"knative.dev/pkg/tracker"
 	"testing"
 
-	"github.com/kiegroup/kogito-operator/apis/app/v1beta1"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 
 	"github.com/google/go-cmp/cmp"
@@ -37,9 +37,11 @@ func TestKogitoSourceValidation(t *testing.T) {
 		"nil spec": {
 			cr: &KogitoSource{
 				Spec: KogitoSourceSpec{
-					KogitoRuntimeSpec: v1beta1.KogitoRuntimeSpec{
-						KogitoServiceSpec: v1beta1.KogitoServiceSpec{
-							Image: "quay.io/kiegroup/serverless-workflow-example",
+					BindingSpec: duckv1.BindingSpec{
+						Subject: tracker.Reference{
+							APIVersion: "apps/v1",
+							Kind:       "Deployment",
+							Name:       "my-custom-kogito",
 						},
 					},
 				},
@@ -73,7 +75,7 @@ func TestKogitoSourceValidation(t *testing.T) {
 						},
 					},
 					ServiceAccountName: "default",
-					KogitoRuntimeSpec:  v1beta1.KogitoRuntimeSpec{},
+					BindingSpec:        duckv1.BindingSpec{},
 				},
 			},
 			want: func() *apis.FieldError {

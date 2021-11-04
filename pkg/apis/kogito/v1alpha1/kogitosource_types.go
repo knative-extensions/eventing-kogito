@@ -17,7 +17,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	kogitoapi "github.com/kiegroup/kogito-operator/apis/app/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -28,6 +27,7 @@ import (
 	"knative.dev/pkg/webhook/resourcesemantics"
 )
 
+// KogitoSource ...
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -81,9 +81,11 @@ type KogitoSourceSpec struct {
 	// +optional
 	ServiceAccountName string `json:"serviceAccountName,omitempty"`
 
-	// inherits kogitoapi.KogitoRuntimeSpec, which provides the interface for users
-	// to declare the KogitoRuntime service to be deployed as an event source
-	kogitoapi.KogitoRuntimeSpec `json:",inline"`
+	// inherits duck/v1 BindingSpec, which provides the interface to set a given subject to this KogitoSource
+	// the subject must be a Kogito service with the Kogito Knative Eventing Addon to enable CloudEvents through HTTP.
+	// Since a Kogito service can be deployed in multiple Kubernetes resources kinds (e.g. Deployment, KService), the APIKind and Version are required attributes
+	// See: https://github.com/kiegroup/kogito-runtimes/tree/main/addons/common/knative
+	duckv1.BindingSpec `json:",inline"`
 }
 
 const (

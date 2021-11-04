@@ -17,13 +17,11 @@ limitations under the License.
 package main
 
 import (
-	// The set of controllers this controller process runs.
-	"knative.dev/eventing-kogito/pkg/reconciler/kogito"
-
+	"knative.dev/eventing-kogito/pkg/reconciler/source"
 	// This defines the shared main for injected controllers.
 	"knative.dev/pkg/injection/sharedmain"
 )
 
 func main() {
-	sharedmain.Main("kogito-source-controller", kogito.NewController)
+	sharedmain.Main("eventing-kogito-controller", source.NewController, source.NewWebhook)
 }
