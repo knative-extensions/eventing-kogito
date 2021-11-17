@@ -23,5 +23,5 @@ import (
 )
 
 func main() {
-	sharedmain.Main("eventing-kogito-controller", source.NewController, source.NewWebhook)
+	sharedmain.Main("eventing-kogito-controller", source.NewController)
 }

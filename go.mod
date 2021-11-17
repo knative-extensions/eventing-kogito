@@ -4,7 +4,6 @@ go 1.14
 
 require (
 	github.com/google/go-cmp v0.5.6
-	github.com/kelseyhightower/envconfig v1.4.0 // indirect
 	go.uber.org/zap v1.19.1
 	k8s.io/api v0.21.4
 	k8s.io/apimachinery v0.21.4

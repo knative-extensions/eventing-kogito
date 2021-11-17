@@ -3,8 +3,6 @@ package source
 import (
 	"context"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/record"
 	"knative.dev/eventing-kogito/pkg/apis/kogito/v1alpha1"
 	"knative.dev/eventing-kogito/pkg/client/clientset/versioned/scheme"
@@ -21,7 +19,7 @@ import (
 	"knative.dev/pkg/webhook/psbinding"
 )
 
-const controllerAgentName = "kogitosourcebinding-controller"
+const controllerAgentName = "kogitosource-controller"
 
 // NewController for the KogitoSource Bindable interface
 // See: https://github.com/knative/pkg/tree/main/webhook/psbinding for reference
@@ -41,8 +39,8 @@ func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl 
 		Recorder: record.NewBroadcaster().NewRecorder(
 			scheme.Scheme, corev1.EventSource{Component: controllerAgentName}),
 	}
-	logger = logger.Named("KogitoSourceBindings")
-	impl := controller.NewContext(ctx, c, controller.ControllerOptions{WorkQueueName: "KogitoSourceBinding", Logger: logger})
+	logger = logger.Named("KogitoSource")
+	impl := controller.NewContext(ctx, c, controller.ControllerOptions{WorkQueueName: "KogitoSource", Logger: logger})
 
 	sbResolver := resolver.NewURIResolverFromTracker(ctx, impl.Tracker)
 	c.SubResourcesReconciler = &KogitoSourceSubResourcesReconciler{
@@ -74,41 +72,3 @@ func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl 
 	return impl
 }
 
-func NewWebhook(ctx context.Context, cmw configmap.Watcher) *controller.Impl {
-	return psbinding.NewAdmissionController(ctx,
-		// Name of the resource webhook.
-		"kogitosources.webhook.bindings.kogito.kie.org",
-
-		// The path on which to serve the webhook.
-		"/kogitosources",
-
-		// How to get all the Bindables for configuring the mutating webhook.
-		ListAll,
-
-		// How to setup the context prior to invoking Do/Undo.
-		func(ctx context.Context, b psbinding.Bindable) (context.Context, error) {
-			return ctx, nil
-		},
-	)
-}
-
-// ListAll ...
-func ListAll(ctx context.Context, handler cache.ResourceEventHandler) psbinding.ListAll {
-	kogitoInformer := kogitosourceinformer.Get(ctx)
-
-	// Whenever a KogitoSource changes our webhook programming might change.
-	kogitoInformer.Informer().AddEventHandler(handler)
-
-	return func() ([]psbinding.Bindable, error) {
-		l, err := kogitoInformer.Lister().List(labels.Everything())
-		if err != nil {
-			return nil, err
-		}
-		bl := make([]psbinding.Bindable, 0, len(l))
-		for _, elt := range l {
-			bl = append(bl, elt)
-		}
-		return bl, nil
-	}
-
-}
