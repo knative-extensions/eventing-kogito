@@ -3,6 +3,7 @@ package source
 import (
 	"context"
 	"errors"
+
 	"knative.dev/eventing-kogito/pkg/apis/kogito/v1alpha1"
 	"knative.dev/pkg/logging"
 	"knative.dev/pkg/resolver"

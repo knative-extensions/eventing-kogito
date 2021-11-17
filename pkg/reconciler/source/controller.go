@@ -2,6 +2,7 @@ package source
 
 import (
 	"context"
+
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	"knative.dev/eventing-kogito/pkg/apis/kogito/v1alpha1"
@@ -71,4 +72,3 @@ func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl 
 
 	return impl
 }
-

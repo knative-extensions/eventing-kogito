@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"context"
-	"knative.dev/pkg/tracker"
 	"testing"
+
+	"knative.dev/pkg/tracker"
 
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 
