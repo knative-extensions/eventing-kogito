@@ -779,7 +779,7 @@ knative.dev/eventing/pkg/reconciler/source
 # knative.dev/hack v0.0.0-20211117134436-69a2295d54ce
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20211117133034-22c0eba0cacf
+# knative.dev/pkg v0.0.0-20211117215328-5708c4c44232
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
