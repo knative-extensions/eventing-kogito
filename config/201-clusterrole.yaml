@@ -46,6 +46,12 @@ rules:
     verbs: *everything
 
   - apiGroups:
+      - serving.knative.dev
+    resources:
+      - services
+    verbs: *everything
+
+  - apiGroups:
       - apps
     resources:
       - deployments
@@ -92,6 +98,16 @@ rules:
       - get
       - list
       - watch
+
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
 
     # For Leader Election
   - apiGroups:

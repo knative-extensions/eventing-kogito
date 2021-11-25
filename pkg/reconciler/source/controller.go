@@ -4,6 +4,8 @@ import (
 	"context"
 
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	"knative.dev/eventing-kogito/pkg/apis/kogito/v1alpha1"
 	"knative.dev/eventing-kogito/pkg/client/clientset/versioned/scheme"
@@ -11,10 +13,12 @@ import (
 	v1 "knative.dev/eventing/pkg/apis/sources/v1"
 	"knative.dev/pkg/apis/duck"
 	"knative.dev/pkg/client/injection/ducks/duck/v1/podspecable"
+	"knative.dev/pkg/client/injection/kube/informers/core/v1/namespace"
 	"knative.dev/pkg/configmap"
 	"knative.dev/pkg/controller"
 	"knative.dev/pkg/injection/clients/dynamicclient"
 	"knative.dev/pkg/logging"
+	"knative.dev/pkg/reconciler"
 	"knative.dev/pkg/resolver"
 	"knative.dev/pkg/tracker"
 	"knative.dev/pkg/webhook/psbinding"
@@ -30,13 +34,30 @@ func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl 
 	kogitoInformer := kogitosourceinformer.Get(ctx)
 	dc := dynamicclient.Get(ctx)
 	psInformerFactory := podspecable.Get(ctx)
+	namespaceInformer := namespace.Get(ctx)
 
 	c := &psbinding.BaseReconciler{
+		LeaderAwareFuncs: reconciler.LeaderAwareFuncs{
+			PromoteFunc: func(bkt reconciler.Bucket, enq func(reconciler.Bucket, types.NamespacedName)) error {
+				all, err := kogitoInformer.Lister().List(labels.Everything())
+				if err != nil {
+					return err
+				}
+				for _, elt := range all {
+					enq(bkt, types.NamespacedName{
+						Namespace: elt.GetNamespace(),
+						Name:      elt.GetName(),
+					})
+				}
+				return nil
+			},
+		},
 		GVR: v1alpha1.SchemeGroupVersion.WithResource("kogitosources"),
 		Get: func(namespace string, name string) (psbinding.Bindable, error) {
 			return kogitoInformer.Lister().KogitoSources(namespace).Get(name)
 		},
-		DynamicClient: dc,
+		DynamicClient:   dc,
+		NamespaceLister: namespaceInformer.Lister(),
 		Recorder: record.NewBroadcaster().NewRecorder(
 			scheme.Scheme, corev1.EventSource{Component: controllerAgentName}),
 	}
@@ -52,6 +73,7 @@ func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl 
 	logger.Info("Setting up event handlers")
 
 	kogitoInformer.Informer().AddEventHandler(controller.HandleAll(impl.Enqueue))
+	namespaceInformer.Informer().AddEventHandler(controller.HandleAll(impl.Enqueue))
 
 	c.Tracker = tracker.New(impl.EnqueueKey, controller.GetTrackerLease(ctx))
 	c.Factory = &duck.CachedInformerFactory{

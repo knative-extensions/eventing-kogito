@@ -34,7 +34,7 @@ const (
 	// KogitoConditionSinkProvided has status True when the KogitoSource has been configured with a sink target.
 	KogitoConditionSinkProvided apis.ConditionType = "SinkProvided"
 
-	// KogitoConditionDeployed has status True when the KogitoSource has had it's deployment created.
+	// KogitoConditionDeployed has status True when the KogitoSource has had its subject created.
 	KogitoConditionDeployed apis.ConditionType = "Deployed"
 )
 
