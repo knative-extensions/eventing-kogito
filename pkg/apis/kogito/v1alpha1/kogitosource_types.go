@@ -88,12 +88,6 @@ type KogitoSourceSpec struct {
 	duckv1.BindingSpec `json:",inline"`
 }
 
-const (
-	// KogitoSourceConditionReady is set when the revision is starting to materialize
-	// runtime resources, and becomes true when those resources are ready.
-	KogitoSourceConditionReady = apis.ConditionReady
-)
-
 // KogitoSourceStatus communicates the observed state of the KogitoSource (from the controller).
 type KogitoSourceStatus struct {
 	// inherits duck/v1 SourceStatus, which currently provides:

@@ -5,11 +5,11 @@ metadata:
   name: kogito-order-processing
 spec:
   subject:
-    apiVesion: serving.knative.dev/v1
+    apiVersion: serving.knative.dev/v1
     kind: Service
     name: serverless-workflow-order-processing
   sink:
     ref:
-      apiVersion: serving.knative.dev/v1
-      kind: Service
-      name: event-display
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: default

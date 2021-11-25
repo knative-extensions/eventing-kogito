@@ -35,7 +35,7 @@ func TestKogitoSourceValidation(t *testing.T) {
 		cr   resourcesemantics.GenericCRD
 		want *apis.FieldError
 	}{
-		"nil spec": {
+		"missing namespace": {
 			cr: &KogitoSource{
 				Spec: KogitoSourceSpec{
 					BindingSpec: duckv1.BindingSpec{
@@ -50,19 +50,15 @@ func TestKogitoSourceValidation(t *testing.T) {
 			want: func() *apis.FieldError {
 				var errs *apis.FieldError
 
-				feSink := apis.ErrGeneric("expected at least one, got none", "ref", "uri")
-				feSink = feSink.ViaField("sink").ViaField("spec")
-				errs = errs.Also(feSink)
-
-				feServiceAccountName := apis.ErrMissingField("serviceAccountName")
-				feServiceAccountName = feServiceAccountName.ViaField("spec")
-				errs = errs.Also(feServiceAccountName)
+				feImage := apis.ErrMissingField("namespace").ViaField("subject")
+				feImage = feImage.ViaField("spec")
+				errs = errs.Also(feImage)
 
 				return errs
 			}(),
 		},
 
-		"no kogito image": {
+		"no bindable": {
 			cr: &KogitoSource{
 				Spec: KogitoSourceSpec{
 					SourceSpec: duckv1.SourceSpec{
@@ -82,9 +78,12 @@ func TestKogitoSourceValidation(t *testing.T) {
 			want: func() *apis.FieldError {
 				var errs *apis.FieldError
 
-				feImage := apis.ErrMissingField("image")
-				feImage = feImage.ViaField("spec")
-				errs = errs.Also(feImage)
+				feBindable := apis.ErrGeneric("expected exactly one, got neither", "spec.subject.name", "spec.subject.selector")
+				feMissingApi := apis.ErrMissingField("apiVersion").ViaField("spec.subject")
+				feMissingKind := apis.ErrMissingField("kind").ViaField("spec.subject")
+				feMissingNs := apis.ErrMissingField("namespace").ViaField("spec.subject")
+
+				errs = errs.Also(feBindable).Also(feMissingApi).Also(feMissingKind).Also(feMissingNs)
 
 				return errs
 			}(),

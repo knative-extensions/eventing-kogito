@@ -28,30 +28,29 @@ import (
 )
 
 const (
-	// KogitoConditionReady has status True when the KogitoSource is ready to send events.
-	KogitoConditionReady = apis.ConditionReady
-
 	// KogitoConditionSinkProvided has status True when the KogitoSource has been configured with a sink target.
 	KogitoConditionSinkProvided apis.ConditionType = "SinkProvided"
 
-	// KogitoConditionDeployed has status True when the KogitoSource has had its subject created.
-	KogitoConditionDeployed apis.ConditionType = "Deployed"
+	// KogitoConditionBindingAvailable has status True when the KogitoSource has been configured with a valid Binding target.
+	KogitoConditionBindingAvailable apis.ConditionType = "BindingAvailable"
 )
 
-var KogitoCondSet = apis.NewLivingConditionSet(
+var kogitoCondSet = apis.NewLivingConditionSet(
 	KogitoConditionSinkProvided,
-	KogitoConditionDeployed,
+	KogitoConditionBindingAvailable,
 )
 
 // GetConditionSet returns KogitoSource ConditionSet.
 func (*KogitoSource) GetConditionSet() apis.ConditionSet {
-	return KogitoCondSet
+	return kogitoCondSet
 }
 
+// GetSubject implements psbinding.Bindable
 func (ks *KogitoSource) GetSubject() tracker.Reference {
 	return ks.Spec.Subject
 }
 
+// GetBindingStatus implements psbinding.Bindable
 func (ks *KogitoSource) GetBindingStatus() duckapi.BindableStatus {
 	return &ks.Status
 }
@@ -90,41 +89,41 @@ func (sbs *KogitoSourceStatus) SetObservedGeneration(gen int64) {
 // MarkBindingUnavailable marks the KogitoSource's Ready condition to False with
 // the provided reason and message.
 func (sbs *KogitoSourceStatus) MarkBindingUnavailable(reason, message string) {
-	KogitoCondSet.Manage(sbs).MarkFalse(KogitoConditionReady, reason, message)
+	kogitoCondSet.Manage(sbs).MarkFalse(KogitoConditionBindingAvailable, reason, message)
 }
 
 // MarkBindingAvailable marks the KogitoSource's Ready condition to True.
 func (sbs *KogitoSourceStatus) MarkBindingAvailable() {
-	KogitoCondSet.Manage(sbs).MarkTrue(KogitoConditionReady)
+	kogitoCondSet.Manage(sbs).MarkTrue(KogitoConditionBindingAvailable)
 }
 
 // GetCondition returns the condition currently associated with the given type, or nil.
 func (s *KogitoSourceStatus) GetCondition(t apis.ConditionType) *apis.Condition {
-	return KogitoCondSet.Manage(s).GetCondition(t)
+	return kogitoCondSet.Manage(s).GetCondition(t)
 }
 
 // InitializeConditions sets relevant unset conditions to Unknown state.
 func (s *KogitoSourceStatus) InitializeConditions() {
-	KogitoCondSet.Manage(s).InitializeConditions()
+	kogitoCondSet.Manage(s).InitializeConditions()
 }
 
 // MarkSink sets the condition that the source has a sink configured.
 func (s *KogitoSourceStatus) MarkSink(uri *apis.URL) {
 	s.SinkURI = uri
 	if len(uri.String()) > 0 {
-		KogitoCondSet.Manage(s).MarkTrue(KogitoConditionSinkProvided)
+		kogitoCondSet.Manage(s).MarkTrue(KogitoConditionSinkProvided)
 	} else {
-		KogitoCondSet.Manage(s).MarkUnknown(KogitoConditionSinkProvided, "SinkEmpty", "Sink has resolved to empty.")
+		kogitoCondSet.Manage(s).MarkUnknown(KogitoConditionSinkProvided, "SinkEmpty", "Sink has resolved to empty.")
 	}
 }
 
 // MarkNoSink sets the condition that the source does not have a sink configured.
 func (s *KogitoSourceStatus) MarkNoSink(reason, messageFormat string, messageA ...interface{}) {
 	s.SinkURI = nil
-	KogitoCondSet.Manage(s).MarkFalse(KogitoConditionSinkProvided, reason, messageFormat, messageA...)
+	kogitoCondSet.Manage(s).MarkFalse(KogitoConditionSinkProvided, reason, messageFormat, messageA...)
 }
 
 // IsReady returns true if the resource is ready overall.
 func (s *KogitoSourceStatus) IsReady() bool {
-	return KogitoCondSet.Manage(s).IsHappy()
+	return kogitoCondSet.Manage(s).IsHappy()
 }

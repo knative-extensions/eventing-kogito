@@ -67,3 +67,9 @@ _Adding the `upstream` remote sets you up nicely for regularly
 [syncing your fork](https://help.github.com/articles/syncing-a-fork/)._
 
 Once you reach this point you are ready to do a full build and deploy as described below.
+
+### Running locally with Minikube
+
+Please check the tutorial
+on [Knative Documentation](https://knative.dev/docs/eventing/custom-event-source/custom-event-source/publish-event-source/)
+. You can use the examples available in the [examples directory](examples).

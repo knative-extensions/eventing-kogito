@@ -22,6 +22,7 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
+	"knative.dev/pkg/tracker"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -59,7 +60,11 @@ func TestKogitoSourceDefaults(t *testing.T) {
 				},
 				Spec: KogitoSourceSpec{
 					ServiceAccountName: "default",
-					BindingSpec:        duckv1.BindingSpec{},
+					BindingSpec: duckv1.BindingSpec{
+						Subject: tracker.Reference{
+							Namespace: "parent",
+						},
+					},
 					SourceSpec: duckv1.SourceSpec{
 						Sink: duckv1.Destination{
 							Ref: &duckv1.KReference{

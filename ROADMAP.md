@@ -21,7 +21,7 @@ released version.
 | :heavy_check_mark: | Deploy a Kogito Service Event source | [KOGITO-5369](https://issues.redhat.com/browse/KOGITO-5369) |
 | :heavy_check_mark: | Ability to describe any addressable sink to a deployed Kogito Service | [KOGITO-5369](https://issues.redhat.com/browse/KOGITO-5369) |
 | :heavy_check_mark: | Add support to `K_CE_OVERRIDES` | [KOGITO-5424](https://issues.redhat.com/browse/KOGITO-5424) |
-| :triangular_flag_on_post: | Deploy target Kogito Service as a Knative Service | [KOGITO-4171](https://issues.redhat.com/browse/KOGITO-4171) |
+| :heavy_check_mark: | Deploy target Kogito Service as a Knative Service | [KOGITO-4171](https://issues.redhat.com/browse/KOGITO-4171) |
 | :triangular_flag_on_post: | Add Knative Service discovery support to Serverless Workflow OpenAPI functions | [KOGITO-3159](https://issues.redhat.com/browse/KOGITO-3159)
 | :triangular_flag_on_post: | Deploy Kogito Source as a Serverless Workflow Kubernetes Resource | |
 | :triangular_flag_on_post: | Implement Knative Addressable Interface | |
