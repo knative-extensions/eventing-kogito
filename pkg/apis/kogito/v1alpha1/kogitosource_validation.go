@@ -42,7 +42,7 @@ func (sspec *KogitoSourceSpec) Validate(ctx context.Context) *apis.FieldError {
 		errs = errs.Also(fe.ViaField("sink"))
 	}
 
-	errs = sspec.Subject.Validate(ctx).ViaField("subject")
+	errs = errs.Also(sspec.Subject.Validate(ctx).ViaField("subject"))
 
 	return errs
 }

@@ -52,7 +52,10 @@ func TestKogitoSourceValidation(t *testing.T) {
 
 				feImage := apis.ErrMissingField("namespace").ViaField("subject")
 				feImage = feImage.ViaField("spec")
-				errs = errs.Also(feImage)
+
+				feSink := apis.ErrGeneric("expected at least one, got none", "spec.sink.ref", "spec.sink.uri")
+
+				errs = errs.Also(feImage).Also(feSink)
 
 				return errs
 			}(),
