@@ -20,16 +20,14 @@ import (
 	"context"
 	"testing"
 
-	"github.com/kiegroup/kogito-operator/apis/app/v1beta1"
-
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
+	"knative.dev/pkg/tracker"
 
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestKogitoSourceDefaults(t *testing.T) {
-	replicas := int32(1)
 	testCases := map[string]struct {
 		initial  KogitoSource
 		expected KogitoSource
@@ -39,11 +37,6 @@ func TestKogitoSourceDefaults(t *testing.T) {
 			expected: KogitoSource{
 				Spec: KogitoSourceSpec{
 					ServiceAccountName: "default",
-					KogitoRuntimeSpec: v1beta1.KogitoRuntimeSpec{
-						KogitoServiceSpec: v1beta1.KogitoServiceSpec{
-							Replicas: &replicas,
-						},
-					},
 				},
 			},
 		},
@@ -67,9 +60,9 @@ func TestKogitoSourceDefaults(t *testing.T) {
 				},
 				Spec: KogitoSourceSpec{
 					ServiceAccountName: "default",
-					KogitoRuntimeSpec: v1beta1.KogitoRuntimeSpec{
-						KogitoServiceSpec: v1beta1.KogitoServiceSpec{
-							Replicas: &replicas,
+					BindingSpec: duckv1.BindingSpec{
+						Subject: tracker.Reference{
+							Namespace: "parent",
 						},
 					},
 					SourceSpec: duckv1.SourceSpec{

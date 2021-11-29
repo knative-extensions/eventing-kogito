@@ -17,71 +17,113 @@ limitations under the License.
 package v1alpha1
 
 import (
-	appsv1 "k8s.io/api/apps/v1"
-	"knative.dev/eventing/pkg/apis/duck"
+	"context"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "knative.dev/eventing/pkg/apis/sources/v1"
 	"knative.dev/pkg/apis"
+	duckapi "knative.dev/pkg/apis/duck"
+	duckv1 "knative.dev/pkg/apis/duck/v1"
+	"knative.dev/pkg/tracker"
 )
 
 const (
-	// KogitoConditionReady has status True when the KogitoSource is ready to send events.
-	KogitoConditionReady = apis.ConditionReady
-
 	// KogitoConditionSinkProvided has status True when the KogitoSource has been configured with a sink target.
 	KogitoConditionSinkProvided apis.ConditionType = "SinkProvided"
 
-	// KogitoConditionDeployed has status True when the KogitoSource has had it's deployment created.
-	KogitoConditionDeployed apis.ConditionType = "Deployed"
+	// KogitoConditionBindingAvailable has status True when the KogitoSource has been configured with a valid Binding target.
+	KogitoConditionBindingAvailable apis.ConditionType = "BindingAvailable"
 )
 
-var KogitoCondSet = apis.NewLivingConditionSet(
+var kogitoCondSet = apis.NewLivingConditionSet(
 	KogitoConditionSinkProvided,
-	KogitoConditionDeployed,
+	KogitoConditionBindingAvailable,
 )
+
+// GetConditionSet returns KogitoSource ConditionSet.
+func (*KogitoSource) GetConditionSet() apis.ConditionSet {
+	return kogitoCondSet
+}
+
+// GetSubject implements psbinding.Bindable
+func (ks *KogitoSource) GetSubject() tracker.Reference {
+	return ks.Spec.Subject
+}
+
+// GetBindingStatus implements psbinding.Bindable
+func (ks *KogitoSource) GetBindingStatus() duckapi.BindableStatus {
+	return &ks.Status
+}
+
+// Do reuse the logic from SinkBinding to inject the sink URLs to the target pod
+func (ks *KogitoSource) Do(ctx context.Context, pod *duckv1.WithPod) {
+	// overload SinkBinding's Do
+	ks.sinkBinding().Do(ctx, pod)
+	// other actions with the bindable object ...
+}
+
+// Undo reuse the logic from SinkBinding to remove the injected environment variables from the target pod
+func (ks *KogitoSource) Undo(ctx context.Context, pod *duckv1.WithPod) {
+	// overload SinkBinding's Undo
+	ks.sinkBinding().Undo(ctx, pod)
+	// other actions with the bindable object ...
+}
+
+func (ks *KogitoSource) sinkBinding() *v1.SinkBinding {
+	return &v1.SinkBinding{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ks.Name,
+			Namespace: ks.Namespace,
+		},
+		Spec: v1.SinkBindingSpec{
+			SourceSpec: ks.Spec.SourceSpec,
+		},
+	}
+}
+
+// SetObservedGeneration implements psbinding.BindableStatus
+func (sbs *KogitoSourceStatus) SetObservedGeneration(gen int64) {
+	sbs.ObservedGeneration = gen
+}
+
+// MarkBindingUnavailable marks the KogitoSource's Ready condition to False with
+// the provided reason and message.
+func (sbs *KogitoSourceStatus) MarkBindingUnavailable(reason, message string) {
+	kogitoCondSet.Manage(sbs).MarkFalse(KogitoConditionBindingAvailable, reason, message)
+}
+
+// MarkBindingAvailable marks the KogitoSource's Ready condition to True.
+func (sbs *KogitoSourceStatus) MarkBindingAvailable() {
+	kogitoCondSet.Manage(sbs).MarkTrue(KogitoConditionBindingAvailable)
+}
 
 // GetCondition returns the condition currently associated with the given type, or nil.
 func (s *KogitoSourceStatus) GetCondition(t apis.ConditionType) *apis.Condition {
-	return KogitoCondSet.Manage(s).GetCondition(t)
+	return kogitoCondSet.Manage(s).GetCondition(t)
 }
 
 // InitializeConditions sets relevant unset conditions to Unknown state.
 func (s *KogitoSourceStatus) InitializeConditions() {
-	KogitoCondSet.Manage(s).InitializeConditions()
-}
-
-// GetConditionSet returns KogitoSource ConditionSet.
-func (*KogitoSource) GetConditionSet() apis.ConditionSet {
-	return KogitoCondSet
+	kogitoCondSet.Manage(s).InitializeConditions()
 }
 
 // MarkSink sets the condition that the source has a sink configured.
 func (s *KogitoSourceStatus) MarkSink(uri *apis.URL) {
 	s.SinkURI = uri
 	if len(uri.String()) > 0 {
-		KogitoCondSet.Manage(s).MarkTrue(KogitoConditionSinkProvided)
+		kogitoCondSet.Manage(s).MarkTrue(KogitoConditionSinkProvided)
 	} else {
-		KogitoCondSet.Manage(s).MarkUnknown(KogitoConditionSinkProvided, "SinkEmpty", "Sink has resolved to empty.")
+		kogitoCondSet.Manage(s).MarkUnknown(KogitoConditionSinkProvided, "SinkEmpty", "Sink has resolved to empty.")
 	}
 }
 
 // MarkNoSink sets the condition that the source does not have a sink configured.
 func (s *KogitoSourceStatus) MarkNoSink(reason, messageFormat string, messageA ...interface{}) {
 	s.SinkURI = nil
-	KogitoCondSet.Manage(s).MarkFalse(KogitoConditionSinkProvided, reason, messageFormat, messageA...)
-}
-
-// PropagateDeploymentAvailability uses the availability of the provided Deployment to determine if
-// KogitoConditionDeployed should be marked as true or false.
-func (s *KogitoSourceStatus) PropagateDeploymentAvailability(d *appsv1.Deployment) {
-	if duck.DeploymentIsAvailable(&d.Status, false) {
-		KogitoCondSet.Manage(s).MarkTrue(KogitoConditionDeployed)
-	} else {
-		// I don't know how to propagate the status well, so just give the name of the Deployment
-		// for now.
-		KogitoCondSet.Manage(s).MarkFalse(KogitoConditionDeployed, "KogitoRuntimeUnavailable", "The KogitoRuntime '%s' is unavailable.", d.Name)
-	}
+	kogitoCondSet.Manage(s).MarkFalse(KogitoConditionSinkProvided, reason, messageFormat, messageA...)
 }
 
 // IsReady returns true if the resource is ready overall.
 func (s *KogitoSourceStatus) IsReady() bool {
-	return KogitoCondSet.Manage(s).IsHappy()
+	return kogitoCondSet.Manage(s).IsHappy()
 }

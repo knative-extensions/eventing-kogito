@@ -1,12 +1,35 @@
-# see sinks directory. use inmemory-channel.yaml to create the sink (or you can change it to any other sink you wish)
-apiVersion: kogito.knative.dev/v1alpha1
-kind: KogitoSource
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
-  name: kogito-order-processing
+  name: serverless-workflow-order-processing
 spec:
-  image: quay.io/ricardozanini/order-processing-workflow:latest
-  sink:
-    ref:
-      apiVersion: messaging.knative.dev/v1
-      kind: InMemoryChannel
-      name: kogito-channel
+  template:
+    spec:
+      containers:
+        - image: quay.io/ricardozanini/serverless-workflow-order-processing:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: null
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: serverless-workflow-order-processing
+          ports:
+            - containerPort: 8080
+              name: http1
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: null
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10

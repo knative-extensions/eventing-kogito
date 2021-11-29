@@ -20,7 +20,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/kiegroup/kogito-operator/apis/app/v1beta1"
+	"knative.dev/pkg/tracker"
+
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 
 	"github.com/google/go-cmp/cmp"
@@ -34,12 +35,14 @@ func TestKogitoSourceValidation(t *testing.T) {
 		cr   resourcesemantics.GenericCRD
 		want *apis.FieldError
 	}{
-		"nil spec": {
+		"missing namespace": {
 			cr: &KogitoSource{
 				Spec: KogitoSourceSpec{
-					KogitoRuntimeSpec: v1beta1.KogitoRuntimeSpec{
-						KogitoServiceSpec: v1beta1.KogitoServiceSpec{
-							Image: "quay.io/kiegroup/serverless-workflow-example",
+					BindingSpec: duckv1.BindingSpec{
+						Subject: tracker.Reference{
+							APIVersion: "apps/v1",
+							Kind:       "Deployment",
+							Name:       "my-custom-kogito",
 						},
 					},
 				},
@@ -47,19 +50,18 @@ func TestKogitoSourceValidation(t *testing.T) {
 			want: func() *apis.FieldError {
 				var errs *apis.FieldError
 
-				feSink := apis.ErrGeneric("expected at least one, got none", "ref", "uri")
-				feSink = feSink.ViaField("sink").ViaField("spec")
-				errs = errs.Also(feSink)
+				feImage := apis.ErrMissingField("namespace").ViaField("subject")
+				feImage = feImage.ViaField("spec")
 
-				feServiceAccountName := apis.ErrMissingField("serviceAccountName")
-				feServiceAccountName = feServiceAccountName.ViaField("spec")
-				errs = errs.Also(feServiceAccountName)
+				feSink := apis.ErrGeneric("expected at least one, got none", "spec.sink.ref", "spec.sink.uri")
+
+				errs = errs.Also(feImage).Also(feSink)
 
 				return errs
 			}(),
 		},
 
-		"no kogito image": {
+		"no bindable": {
 			cr: &KogitoSource{
 				Spec: KogitoSourceSpec{
 					SourceSpec: duckv1.SourceSpec{
@@ -73,15 +75,18 @@ func TestKogitoSourceValidation(t *testing.T) {
 						},
 					},
 					ServiceAccountName: "default",
-					KogitoRuntimeSpec:  v1beta1.KogitoRuntimeSpec{},
+					BindingSpec:        duckv1.BindingSpec{},
 				},
 			},
 			want: func() *apis.FieldError {
 				var errs *apis.FieldError
 
-				feImage := apis.ErrMissingField("image")
-				feImage = feImage.ViaField("spec")
-				errs = errs.Also(feImage)
+				feBindable := apis.ErrGeneric("expected exactly one, got neither", "spec.subject.name", "spec.subject.selector")
+				feMissingApi := apis.ErrMissingField("apiVersion").ViaField("spec.subject")
+				feMissingKind := apis.ErrMissingField("kind").ViaField("spec.subject")
+				feMissingNs := apis.ErrMissingField("namespace").ViaField("spec.subject")
+
+				errs = errs.Also(feBindable).Also(feMissingApi).Also(feMissingKind).Also(feMissingNs)
 
 				return errs
 			}(),

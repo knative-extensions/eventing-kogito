@@ -164,14 +164,14 @@ Before installing the Knative Eventing Kogito Source, you must meet the followin
 1. You have administrative privileges in the target cluster
 2. You have [installed Knative](https://knative.dev/docs/install/) Eventing and Serving (or
    have [OpenShift Serverless Platform](https://www.openshift.com/learn/topics/serverless) available)
-3. You have [installed the Kogito Operator](https://github.com/kiegroup/kogito-operator)
+3. (Optionally) You have [installed the Kogito Operator](https://github.com/kiegroup/kogito-operator)
 
 #### Installation steps
 
 You can install the source using `kubectl` CLI:
 
 ```shell
-VERSION=0.26.0
+VERSION=1.0.0
 kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/releases/download/v${VERSION}/kogito.yaml
 ```
 
@@ -203,7 +203,7 @@ Now you can start deploying the [examples](./examples)!
    or [Serverless Workflow](https://docs.jboss.org/kogito/release/latest/html_single/#chap-kogito-orchestrating-serverless).
 3. Build the image with your project. See
    an [example here](https://github.com/kiegroup/kogito-examples/blob/stable/serverless-workflow-order-processing/Dockerfile).
-4. Push your image to a registry where your cluster can access it.
+4. Deploy the application on Kubernetes either as a Knative Service or a regular Deployment.
 5. Create the Kogito Source CR. See [this example](./examples/kogito-source-reference.yaml) to be used as a reference to
    create your own.
 6. Use kubectl to deploy your source: `kubectl apply -f <path to the source>.yaml`
@@ -223,32 +223,12 @@ NAME                      READY   REASON   SINK                                 
 kogito-order-processing   True             http://kogito-channel-kn-channel.kogito.svc.cluster.local   31s
 ```
 
-The `READY` field gives a cue about the general status of the source.
+The `READY` field gives a clue about the general status of the source.
 
-Behind the curtains, Knative Eventing Kogito creates a
-backed [`KogitoRuntime`](https://github.com/kiegroup/kogito-operator/blob/main/apis/app/v1beta1/kogitoservices.go)
-object that is a representation of your service in the cluster. You can also query it to check its status:
-
-```shell
-kubectl get kogitoruntimes
-
-NAME                         REPLICAS   IMAGE                                                    ENDPOINT
-ks-kogito-order-processing   1          quay.io/kiegroup/order-processing-workflow:latest
-```
+Behind the curtains, Knative Eventing Kogito will inject the environment variables with information about the Sink to
+your Kogito application.
 
 The source is ready to produce events to the sink defined in the service.
-
-#### Objects deployed by the source
-
-The image below illustrates the objects created and managed by Kogito Knative Source:
-
-![Knative Kogito Source](./docs/knative-kogito-source-role.png)
-
-Once you deploy the `KogitoSource` object, the source controller will discover the endpoint of the addressable object
-defined in the `sink` attribute.
-
-Having resolved the endpoint address, the controller then delegates the creation of the Kogito service to the Kogito
-Operator. The operator controller handles the configuration of the sink endpoint in the service container.
 
 ## Additional Resources
 

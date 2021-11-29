@@ -1,0 +1,15 @@
+# see sinks directory. use event-display.yaml to create the sink (or you can change it to any other sink you wish)
+apiVersion: kogito.knative.dev/v1alpha1
+kind: KogitoSource
+metadata:
+  name: kogito-order-processing
+spec:
+  subject:
+    apiVersion: serving.knative.dev/v1
+    kind: Service
+    name: serverless-workflow-order-processing
+  sink:
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: default

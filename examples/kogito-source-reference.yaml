@@ -3,50 +3,12 @@ kind: KogitoSource
 metadata:
   name: my-kogito-source
 spec:
-  # the spec implements the Kogito Operator KogitoRuntime and the Knative Eventing Source, you can use both attributes to have your custom KogitoSource
-  image: <your image>
-  # starting number of replicas that the service will have deployed in the cluster.
-  replicas: 1
-  # Environment variables to be added to the runtime container. Keys must be a C_IDENTIFIER.
-  env:
-    - name: DEBUG
-      value: true
-  # Runtime cue that this Kogito source is running with (can be quarkus or springboot)
-  runtime: quarkus
-  # A flag indicating that image streams created by Kogito Operator should be configured to allow pulling from insecure registries.
-  insecureImageRegistry:
-  # Defined compute resource requirements for the deployed service.
-  resources:
-    limits:
-      cpu: 100m
-      memory: 500Mi
-    requests:
-      cpu: 50m
-      memory: 500Mi
-  # Additional labels to be added to the Deployment and Pods managed by the operator.
-  deploymentLabels:
-    - myLabel: myValue
-  # Additional labels to be added to the Service managed by the operator.
-  serviceLabels:
-    - myLabel: myValue
-  # Custom ConfigMap with application.properties file to be mounted for the Kogito service.
-  propertiesConfigMap:
-  # Create Service monitor instance to connect with Monitoring service
-  monitoring:
-    # HTTP scheme to use for scraping.
-    scheme:
-    # HTTP path to scrape for metrics.
-    path:
-  # Application properties that will be set to the source. For example 'MY_VAR: my_value'.
-  config:
-    - quarkus.log.category."org.kie.kogito".level: DEBUG
-  # Configure liveness, readiness and startup probes for this source. Implements Kuberenetes probe object.
-  probes:
-    livenessProbe:
-    readinessProbe:
-    startupProbe:
-  # Custom JKS TrustStore that will be used by this service to make calls to TLS endpoints.
-  trustStoreSecret:
+  ## Target deployed Kogito service. In this example we use Knative Service, but can be any kind of "Podspecable" interface.
+  ## see: https://knative.dev/docs/developer/concepts/duck-typing/ (Podspecable)
+  subject:
+    apiVesion: serving.knative.dev/v1
+    kind: Service
+    name: my-kogito-service
   # see sinks directory. use inmemory-channel.yaml to create the sink (or you can change it to any other sink you wish)
   sink:
     ref:

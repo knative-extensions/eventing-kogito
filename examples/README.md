@@ -1,7 +1,7 @@
 # Kogito Source Examples
 
 In this directory you will find some examples of Kogito Source usage. It's assumed that you have successfully installed
-Knative, Kogito Operator and Knative Kogito Source in your cluster.
+Knative and Knative Kogito Source in your cluster.
 
 ## Order Processing Workflow
 
@@ -15,10 +15,16 @@ To deploy this example in your cluster, first deploy the event display sink:
 $ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/sinks/event-display.yaml
 ```
 
-Then you can deploy the source with:
+Then you can deploy the Kogito application with:
 
 ```shell
 $ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/order-processing-workflow.yaml
+```
+
+Next, deploy the Kogito Source that will bind the Sink and the Service together:
+
+```shell
+$ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/kogito-source-order-processing-workflow.yaml
 ```
 
 Check if the source is ready:

@@ -14,5 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+command -v goimports > /dev/null || go get -u -modfile=go.tools.mod golang.org/x/tools/cmd/goimports
+command -v golangci-lint > /dev/null || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+
 gofmt -s -w ./pkg/** ./cmd/**
 goimports -w ./pkg/** ./cmd/**
+golangci-lint run  -c .golangci.yaml pkg/... cmd/...

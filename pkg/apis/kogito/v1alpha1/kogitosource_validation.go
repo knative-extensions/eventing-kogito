@@ -42,13 +42,7 @@ func (sspec *KogitoSourceSpec) Validate(ctx context.Context) *apis.FieldError {
 		errs = errs.Also(fe.ViaField("sink"))
 	}
 
-	if sspec.ServiceAccountName == "" {
-		errs = errs.Also(apis.ErrMissingField("serviceAccountName"))
-	}
-
-	if sspec.Image == "" {
-		errs = errs.Also(apis.ErrMissingField("image"))
-	}
+	errs = errs.Also(sspec.Subject.Validate(ctx).ViaField("subject"))
 
 	return errs
 }

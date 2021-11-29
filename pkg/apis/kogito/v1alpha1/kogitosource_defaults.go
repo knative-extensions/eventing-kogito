@@ -31,9 +31,9 @@ func (s *KogitoSource) SetDefaults(ctx context.Context) {
 		s.Spec.ServiceAccountName = "default"
 	}
 
-	if s != nil && s.Spec.Replicas == nil {
-		replicas := int32(1)
-		s.Spec.Replicas = &replicas
+	if s.Spec.Subject.Namespace == "" {
+		// Default the subject's namespace to our namespace.
+		s.Spec.Subject.Namespace = s.Namespace
 	}
 
 	// call SetDefaults against duckv1.Destination with a context of ObjectMeta of KogitoSource.
