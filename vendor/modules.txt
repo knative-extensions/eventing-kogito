@@ -19,7 +19,7 @@ github.com/census-instrumentation/opencensus-proto/gen-go/agent/trace/v1
 github.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1
 github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1
 github.com/census-instrumentation/opencensus-proto/gen-go/trace/v1
-# github.com/cloudevents/sdk-go/v2 v2.4.1
+# github.com/cloudevents/sdk-go/v2 v2.7.0
 github.com/cloudevents/sdk-go/v2
 github.com/cloudevents/sdk-go/v2/binding
 github.com/cloudevents/sdk-go/v2/binding/format
@@ -701,15 +701,15 @@ k8s.io/utils/buffer
 k8s.io/utils/integer
 k8s.io/utils/pointer
 k8s.io/utils/trace
-# knative.dev/eventing v0.28.0
+# knative.dev/eventing v0.28.1-0.20211217092418-fede720191d3
 ## explicit
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20211203062838-e11ac125e707
+# knative.dev/hack v0.0.0-20211216134818-6fc030496333
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20211206113427-18589ac7627e
+# knative.dev/pkg v0.0.0-20211216142117-79271798f696
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
