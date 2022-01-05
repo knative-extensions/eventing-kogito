@@ -74,7 +74,10 @@ func (c *Clientset) Tracker() testing.ObjectTracker {
 	return c.tracker
 }
 
-var _ clientset.Interface = &Clientset{}
+var (
+	_ clientset.Interface = &Clientset{}
+	_ testing.FakeClient  = &Clientset{}
+)
 
 // KogitoV1alpha1 retrieves the KogitoV1alpha1Client
 func (c *Clientset) KogitoV1alpha1() kogitov1alpha1.KogitoV1alpha1Interface {
