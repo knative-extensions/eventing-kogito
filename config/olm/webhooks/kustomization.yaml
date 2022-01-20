@@ -1,0 +1,6 @@
+## Downloaded by Makefile when running the bundle command
+resources:
+  - kogito.yaml
+
+patchesStrategicMerge:
+  - remove-admission-webhooks.yaml

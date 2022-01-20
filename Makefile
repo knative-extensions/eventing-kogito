@@ -178,8 +178,13 @@ bundle: kustomize ## Generate bundle manifests and metadata, then validate gener
 	curl -LO https://raw.githubusercontent.com/knative/eventing/knative-v$(VERSION)/config/core/roles/addressable-resolvers-clusterrole.yaml
 	mv addressable-resolvers-clusterrole.yaml tmp/
 	cp config/olm/rbac/addressable-resolvers-clusterrolebinding.yaml tmp/
+	## Configure CSV with additional patches
 	$(KUSTOMIZE) build config/olm/manifests --output tmp/eventing-kogito.clusterserviceversion.yaml
 	$(KUSTOMIZE) build config/olm/scorecard --output bundle/tests/scorecard/config.yaml
+	## Remove webhooks
+	cp tmp/kogito.yaml config/olm/webhooks/
+	$(KUSTOMIZE) build config/olm/webhooks --output tmp/kogito.yaml
+	rm config/olm/webhooks/kogito.yaml
 	operator-sdk generate bundle --input-dir tmp --output-dir bundle --package eventing-kogito -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	operator-sdk bundle validate ./bundle
 
