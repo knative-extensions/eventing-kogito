@@ -1,0 +1,75 @@
+# Copyright 2022 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## For now, we are removing the admission webhooks from the source
+## OLM and Knative platform won't play together since both needs to manage the certificates and the webhooks
+## See https://github.com/operator-framework/operator-lifecycle-manager/issues/1805
+
+$patch: delete
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: defaulting.webhook.knative-kogito.knative.dev
+---
+$patch: delete
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: config.webhook.knative-kogito.knative.dev
+---
+$patch: delete
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation.webhook.knative-kogito.knative.dev
+---
+$patch: delete
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kogito-source-webhook
+  namespace: knative-kogito
+---
+$patch: delete
+apiVersion: v1
+kind: Secret
+metadata:
+  name: webhook-certs
+  namespace: knative-kogito
+---
+$patch: delete
+apiVersion: v1
+kind: Service
+metadata:
+  name: kogito-source-webhook
+  namespace: knative-kogito
+---
+$patch: delete
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-webhook-rolebinding
+---
+$patch: delete
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kogito-source-webhook
+---
+$patch: delete
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kogito-source-webhook
+  namespace: knative-kogito

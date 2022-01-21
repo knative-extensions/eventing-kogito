@@ -27,10 +27,11 @@ import (
 	"knative.dev/pkg/webhook/resourcesemantics"
 )
 
-// KogitoSource ...
+// KogitoSource is the representation of a Knative Eventing Source for a Kogito custom Service.
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +operator-sdk:csv:customresourcedefinitions:displayName="Kogito Source",resources={{Trigger,eventing.knative.dev/v1,kogito-service-trigger}, {Service,serving.knative.dev/v1,kogito-service}, {Broker,eventing.knative.dev/v1,default}}
 type KogitoSource struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional

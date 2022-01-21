@@ -10,6 +10,6 @@ spec:
     name: serverless-workflow-order-processing
   sink:
     ref:
-      apiVersion: eventing.knative.dev/v1
-      kind: Broker
-      name: default
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: event-display

@@ -6,7 +6,7 @@ Knative and Knative Kogito Source in your cluster.
 ## Order Processing Workflow
 
 This is a pre-built application based on the
-original [Order Processing example](https://github.com/kiegroup/kogito-examples/tree/stable/serverless-workflow-order-processing)
+original [Order Processing example](https://github.com/kiegroup/kogito-examples/tree/stable/kogito-quarkus-examples/serverless-workflow-order-processing)
 . Please check that example to understand how to interact with the application.
 
 To deploy this example in your cluster, first deploy the event display sink:
@@ -37,6 +37,19 @@ kogito-order-processing-source   True             http://event-display.kogito.sv
 ```
 
 You can send "order" events to the application endpoint. You should see them in the Event Display service:
+
+```
+$ curl -X POST \
+      -H "content-type: application/json"  \
+      -H "ce-specversion: 1.0"  \
+      -H "ce-source: /from/localhost"  \
+      -H "ce-type: orderEvent"  \
+      -H "ce-id: f0643c68-609c-48aa-a820-5df423fa4fe0"  \
+      -d ' {"id":"f0643c68-609c-48aa-a820-5df423fa4fe0","country":"Brazil","total":10000,"description":"iPhone 12"}' \
+  http://localhost:8080
+```
+
+Replace the command above with your _ksvc_ endpoint.
 
 ```
 $ kubectl logs -l serving.knative.dev/service=event-display -c user-container

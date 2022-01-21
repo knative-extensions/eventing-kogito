@@ -1,0 +1,20 @@
+domain: knative.dev
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: eventing-kogito
+repo: github.com/knative-sandbox/eventing-kogito
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: knative.dev
+  group: kogito
+  kind: KogitoSource
+  path: knative.dev/eventing-kogito/pkg/apis/kogito
+  version: v1alpha1
+version: "3"
+multigroup: true

@@ -1,0 +1,101 @@
+# Copyright 2022 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## OLM can't bind the Knative's ClusterRole addressable-resolver automatically to our controller SA (kogito-source-controller) since we don't know
+## installed namespace preemptively.
+
+## This way, during the bundle generation, we download from the Knative Eventing repo the aggregated ClusterRoles and
+## bind them with this file
+
+## Then, the operator-sdk CLI can read and compose the spec.permissions.clusterPermissions field in the CSV.
+## See Makefile -> bundle.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-controller-rolebinding-service
+  labels:
+    kogito.knative.dev/release: devel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: service-addressable-resolver
+subjects:
+  - kind: ServiceAccount
+    name: kogito-source-controller
+    namespace: knative-kogito
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-controller-rolebinding-serving
+  labels:
+    kogito.knative.dev/release: devel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: serving-addressable-resolver
+subjects:
+  - kind: ServiceAccount
+    name: kogito-source-controller
+    namespace: knative-kogito
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-controller-rolebinding-channel
+  labels:
+    kogito.knative.dev/release: devel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: channel-addressable-resolver
+subjects:
+  - kind: ServiceAccount
+    name: kogito-source-controller
+    namespace: knative-kogito
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-controller-rolebinding-broker
+  labels:
+    kogito.knative.dev/release: devel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: broker-addressable-resolver
+subjects:
+  - kind: ServiceAccount
+    name: kogito-source-controller
+    namespace: knative-kogito
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kogito-source-controller-rolebinding-flows
+  labels:
+    kogito.knative.dev/release: devel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flows-addressable-resolver
+subjects:
+  - kind: ServiceAccount
+    name: kogito-source-controller
+    namespace: knative-kogito
