@@ -22,5 +22,5 @@ resources:
 patches:
   - target:
       kind: ClusterServiceVersion
-      name: eventing-kogito.v1.1.0
+      name: eventing-kogito.v1.1.0 # doesn't need to change this version number, it will automatically be updated by makefile
     path: csv-descriptors-patch.json

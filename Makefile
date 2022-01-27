@@ -38,7 +38,7 @@ IMAGE_TAG_BASE ?= quay.io/kiegroup/kogito-source
 BUNDLE_IMG ?= $(IMAGE_TAG_BASE)-bundle:v$(VERSION)
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v$(VERSION)
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
 ENVTEST_K8S_VERSION = 1.22
 
@@ -170,7 +170,6 @@ endef
 .PHONY: bundle
 bundle: kustomize ## Generate bundle manifests and metadata, then validate generated files.
 	operator-sdk generate kustomize manifests --apis-dir pkg/apis --input-dir=./config/olm/manifests --output-dir=./config/olm/manifests --package=eventing-kogito
-	## cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	## Required objects to deploy the source
 	curl -LO https://github.com/knative-sandbox/eventing-kogito/releases/download/knative-v$(VERSION)/kogito.yaml
 	mv kogito.yaml tmp/
@@ -181,11 +180,14 @@ bundle: kustomize ## Generate bundle manifests and metadata, then validate gener
 	## Configure CSV with additional patches
 	$(KUSTOMIZE) build config/olm/manifests --output tmp/eventing-kogito.clusterserviceversion.yaml
 	$(KUSTOMIZE) build config/olm/scorecard --output bundle/tests/scorecard/config.yaml
-	## Remove webhooks
-	cp tmp/kogito.yaml config/olm/webhooks/
-	$(KUSTOMIZE) build config/olm/webhooks --output tmp/kogito.yaml
-	rm config/olm/webhooks/kogito.yaml
-	operator-sdk generate bundle --input-dir tmp --output-dir bundle --package eventing-kogito -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
+	## Apply kustomizations to the installer
+	cp tmp/kogito.yaml config/olm/installer/
+	cd config/olm/installer && $(KUSTOMIZE) edit set image gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller=$(IMG)
+	$(KUSTOMIZE) build config/olm/installer --output tmp/kogito.yaml
+	rm config/olm/installer/kogito.yaml
+	operator-sdk generate bundle --kustomize-dir=config/olm/manifests --input-dir tmp --output-dir bundle --package eventing-kogito -q --overwrite --metadata=false --version $(VERSION) $(BUNDLE_METADATA_OPTS)
+	sed -i'.original' -e 's/{VERSION}/$(VERSION)/g' bundle/manifests/eventing-kogito.clusterserviceversion.yaml
+	rm bundle/manifests/eventing-kogito.clusterserviceversion.yaml.original # keep sed compatibility with macos and linux
 	operator-sdk bundle validate ./bundle
 
 ## See how to run with OLM locally: https://sdk.operatorframework.io/docs/olm-integration/tutorial-bundle/

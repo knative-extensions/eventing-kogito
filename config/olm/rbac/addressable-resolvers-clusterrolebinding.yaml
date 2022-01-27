@@ -13,7 +13,7 @@
 # limitations under the License.
 
 ## OLM can't bind the Knative's ClusterRole addressable-resolver automatically to our controller SA (kogito-source-controller) since we don't know
-## installed namespace preemptively.
+## the installed namespace preemptively.
 
 ## This way, during the bundle generation, we download from the Knative Eventing repo the aggregated ClusterRoles and
 ## bind them with this file
