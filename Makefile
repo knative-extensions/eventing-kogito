@@ -185,7 +185,7 @@ bundle: kustomize ## Generate bundle manifests and metadata, then validate gener
 	cd config/olm/installer && $(KUSTOMIZE) edit set image gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller=$(IMG)
 	$(KUSTOMIZE) build config/olm/installer --output tmp/kogito.yaml
 	rm config/olm/installer/kogito.yaml
-	operator-sdk generate bundle --kustomize-dir=config/olm/manifests --input-dir tmp --output-dir bundle --package eventing-kogito -q --overwrite --metadata=false --version $(VERSION) $(BUNDLE_METADATA_OPTS)
+	operator-sdk generate bundle --kustomize-dir=config/olm/manifests --input-dir tmp --output-dir bundle --package eventing-kogito -q --overwrite --metadata=false --manifests=true --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	sed -i'.original' -e 's/{VERSION}/$(VERSION)/g' bundle/manifests/eventing-kogito.clusterserviceversion.yaml
 	rm bundle/manifests/eventing-kogito.clusterserviceversion.yaml.original # keep sed compatibility with macos and linux
 	operator-sdk bundle validate ./bundle
