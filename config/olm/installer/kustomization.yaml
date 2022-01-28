@@ -12,9 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 ## Downloaded by Makefile when running the bundle command
 resources:
-  - kogito.yaml
+- kogito.yaml
 
 patchesStrategicMerge:
-  - remove-admission-webhooks.yaml
+- remove-admission-webhooks.yaml
+
+# Automatically updated by Makefile, don't touch this section!
+images:
+- name: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller
+  newName: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller
+  newTag: v1.1.0

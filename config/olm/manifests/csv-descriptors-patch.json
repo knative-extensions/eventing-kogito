@@ -28,5 +28,10 @@
         ]
       }
     ]
+  },
+  {
+    "op": "replace",
+    "path": "/metadata/annotations/containerImage",
+    "value": "gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v{VERSION}"
   }
 ]
