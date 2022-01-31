@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     duck.knative.dev/source: "true"
-    kogito.knative.dev/release: v1.1.0
+    kogito.knative.dev/release: v1.2.0
   name: kogito-source-observer
 rules:
 - apiGroups:

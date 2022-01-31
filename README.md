@@ -171,7 +171,7 @@ Before installing the Knative Eventing Kogito Source, you must meet the followin
 You can install the source using `kubectl` CLI:
 
 ```shell
-VERSION=1.1.0
+VERSION=1.2.0
 kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/releases/download/knative-v${VERSION}/kogito.yaml
 ```
 

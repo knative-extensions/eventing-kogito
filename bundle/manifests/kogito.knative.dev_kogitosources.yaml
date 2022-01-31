@@ -10,7 +10,7 @@ metadata:
   labels:
     eventing.knative.dev/source: "true"
     knative.dev/crd-install: "true"
-    kogito.knative.dev/release: v1.1.0
+    kogito.knative.dev/release: v1.2.0
   name: kogitosources.kogito.knative.dev
 spec:
   group: kogito.knative.dev
