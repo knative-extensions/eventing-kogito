@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     control-plane: kogito-source-controller-manager
-    kogito.knative.dev/release: v1.1.0
+    kogito.knative.dev/release: v1.2.0
   name: kogito-source-controller-manager
 spec:
   ports:

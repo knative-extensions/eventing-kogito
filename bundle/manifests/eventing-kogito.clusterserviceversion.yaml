@@ -28,14 +28,14 @@ metadata:
       ]
     capabilities: Basic Install
     categories: Networking
-    containerImage: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v1.1.0
+    containerImage: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v1.2.0
     createdAt: "2021-08-25T12:00:00Z"
     olm.targetNamespaces: knative-kogito
     operators.operatorframework.io/builder: operator-sdk-v1.16.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
     repository: https://github.com/knative-sandbox/eventing-kogito
     support: Red Hat
-  name: eventing-kogito.v1.1.0
+  name: eventing-kogito.v1.2.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -280,7 +280,7 @@ spec:
             metadata:
               labels:
                 app: kogito-source-controller
-                kogito.knative.dev/release: v1.1.0
+                kogito.knative.dev/release: v1.2.0
             spec:
               affinity:
                 podAntiAffinity:
@@ -307,7 +307,7 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.name
-                image: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v1.1.0
+                image: gcr.io/knative-releases/knative.dev/eventing-kogito/cmd/controller:v1.2.0
                 name: controller
                 ports:
                 - containerPort: 9090
@@ -351,4 +351,5 @@ spec:
   minKubeVersion: 1.20.0
   provider:
     name: Red Hat
-  version: 1.1.0
+  replaces: eventing-kogito.v1.1.0
+  version: 1.2.0
