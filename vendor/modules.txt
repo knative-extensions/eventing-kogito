@@ -703,15 +703,15 @@ k8s.io/utils/buffer
 k8s.io/utils/integer
 k8s.io/utils/pointer
 k8s.io/utils/trace
-# knative.dev/eventing v0.29.1-0.20220217054812-7a48f4269b6f
+# knative.dev/eventing v0.29.1-0.20220221175003-2a69eec1e358
 ## explicit
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220218190734-a8ef7b67feec
+# knative.dev/hack v0.0.0-20220222192704-cf8cbc0e9165
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20220217155112-d48172451966
+# knative.dev/pkg v0.0.0-20220222211204-80c511aa340f
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
