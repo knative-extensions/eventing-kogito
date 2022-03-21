@@ -117,7 +117,7 @@ func (c *FakeKogitoSources) UpdateStatus(ctx context.Context, kogitoSource *v1al
 // Delete takes name of the kogitoSource and deletes it. Returns an error if one occurs.
 func (c *FakeKogitoSources) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(kogitosourcesResource, c.ns, name), &v1alpha1.KogitoSource{})
+		Invokes(testing.NewDeleteActionWithOptions(kogitosourcesResource, c.ns, name, opts), &v1alpha1.KogitoSource{})
 
 	return err
 }
