@@ -727,12 +727,12 @@ k8s.io/utils/internal/third_party/forked/golang/net
 k8s.io/utils/net
 k8s.io/utils/pointer
 k8s.io/utils/trace
-# knative.dev/eventing v0.30.1-0.20220325083448-4be06cdde807
+# knative.dev/eventing v0.30.1-0.20220328072150-7001b651f8e9
 ## explicit
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220318020218-14f832e506f8
+# knative.dev/hack v0.0.0-20220328133751-f06773764ce3
 ## explicit
 knative.dev/hack
 # knative.dev/pkg v0.0.0-20220325200448-1f7514acd0c2
