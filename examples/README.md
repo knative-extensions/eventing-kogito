@@ -12,19 +12,19 @@ original [Order Processing example](https://github.com/kiegroup/kogito-examples/
 To deploy this example in your cluster, first deploy the event display sink:
 
 ```shell
-$ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/sinks/event-display.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/knative-sandbox/eventing-kogito/main/examples/sinks/event-display.yaml
 ```
 
 Then you can deploy the Kogito application with:
 
 ```shell
-$ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/order-processing-workflow.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/knative-sandbox/eventing-kogito/main/examples/order-processing-workflow.yaml
 ```
 
 Next, deploy the Kogito Source that will bind the Sink and the Service together:
 
 ```shell
-$ kubectl apply -f https://github.com/knative-sandbox/eventing-kogito/blob/main/examples/kogito-source-order-processing-workflow.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/knative-sandbox/eventing-kogito/main/examples/kogito-source-order-processing-workflow.yaml
 ```
 
 Check if the source is ready:
