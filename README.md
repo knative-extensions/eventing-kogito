@@ -87,8 +87,8 @@ In this example, the Kogito Serverless Workflow service will produce either a `D
 `InternationalShippingOrder`, depending on the data processed by the workflow.
 
 The developer of the workflow defines the data structure of the event. In this example, you can check the domain model
-[in this repository](https://github.com/kiegroup/kogito-examples/tree/stable/serverless-workflow-order-processing). The
-domain is based on the order model sent by the [main workflow](https://github.com/kiegroup/kogito-examples/blob/stable/serverless-workflow-order-processing/src/main/resources/order-workflow.sw.yaml).
+[in this repository](https://github.com/kiegroup/kogito-examples/tree/stable/kogito-quarkus-examples/serverless-workflow-order-processing). The
+domain is based on the order model sent by the [main workflow](https://github.com/kiegroup/kogito-examples/blob/stable/kogito-quarkus-examples/serverless-workflow-order-processing/src/main/resources/order-workflow.sw.yaml).
 
 An example of a `CloudEvent` produced by this service looks like this one:
 
@@ -199,10 +199,10 @@ Now you can start deploying the [examples](./examples)!
 1. Deploy a [Knative Sink](https://knative.dev/docs/developer/eventing/sinks/) to consume the events produced by your
    Kogito Service
 2. Create your Kogito project locally. You can use our guide
-   for [BPMN](https://docs.jboss.org/kogito/release/latest/html_single/#con-knative-eventing_kogito-developing-process-services)
+   for [Knative Eventing](https://docs.jboss.org/kogito/release/latest/html_single/#con-knative-eventing_kogito-developing-process-services)
    or [Serverless Workflow](https://docs.jboss.org/kogito/release/latest/html_single/#chap-kogito-orchestrating-serverless).
 3. Build the image with your project. See
-   an [example here](https://github.com/kiegroup/kogito-examples/blob/stable/serverless-workflow-order-processing/Dockerfile).
+   an [example here](https://github.com/kiegroup/kogito-examples/blob/stable/kogito-quarkus-examples/serverless-workflow-order-processing/Dockerfile).
 4. Deploy the application on Kubernetes either as a Knative Service or a regular Deployment.
 5. Create the Kogito Source CR. See [this example](./examples/kogito-source-reference.yaml) to be used as a reference to
    create your own.
