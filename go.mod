@@ -4,13 +4,13 @@ go 1.14
 
 require (
 	github.com/google/go-cmp v0.5.6
-	go.uber.org/zap v1.19.1
-	k8s.io/api v0.23.5
-	k8s.io/apimachinery v0.23.5
-	k8s.io/client-go v0.23.5
-	knative.dev/eventing v0.32.0
-	knative.dev/hack v0.0.0-20220524153203-12d3e2a7addc
-	knative.dev/pkg v0.0.0-20220524202603-19adf798efb8
+	go.uber.org/zap v1.21.0
+	k8s.io/api v0.23.8
+	k8s.io/apimachinery v0.23.8
+	k8s.io/client-go v0.23.8
+	knative.dev/eventing v0.32.1-0.20220622112123-0866e62ec48e
+	knative.dev/hack v0.0.0-20220610014127-dc6c287516dc
+	knative.dev/pkg v0.0.0-20220621173822-9c5a7317fa9d
 )
 
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v0.9.2
