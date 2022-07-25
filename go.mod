@@ -8,9 +8,9 @@ require (
 	k8s.io/api v0.23.8
 	k8s.io/apimachinery v0.23.8
 	k8s.io/client-go v0.23.8
-	knative.dev/eventing v0.33.1-0.20220721014205-5a21cd4ce6ea
-	knative.dev/hack v0.0.0-20220721014222-a6450400b5f1
-	knative.dev/pkg v0.0.0-20220721014205-1a5e1682be3a
+	knative.dev/eventing v0.33.1-0.20220722122720-c8435ed74ba8
+	knative.dev/hack v0.0.0-20220722185521-123a2783c4d8
+	knative.dev/pkg v0.0.0-20220722175921-6c9c1c6098d5
 )
 
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v0.9.2
