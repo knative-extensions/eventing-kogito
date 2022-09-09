@@ -740,7 +740,7 @@ k8s.io/utils/trace
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220907111718-6c301965af4c
+# knative.dev/hack v0.0.0-20220908170219-36b2b3c7a245
 ## explicit
 knative.dev/hack
 # knative.dev/pkg v0.0.0-20220826162920-93b66e6a8700
