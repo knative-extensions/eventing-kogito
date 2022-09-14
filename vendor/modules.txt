@@ -418,7 +418,6 @@ k8s.io/apimachinery/pkg/runtime/serializer/versioning
 k8s.io/apimachinery/pkg/selection
 k8s.io/apimachinery/pkg/types
 k8s.io/apimachinery/pkg/util/cache
-k8s.io/apimachinery/pkg/util/clock
 k8s.io/apimachinery/pkg/util/diff
 k8s.io/apimachinery/pkg/util/errors
 k8s.io/apimachinery/pkg/util/framer
@@ -750,10 +749,10 @@ k8s.io/utils/trace
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220912134332-103cdb35f0d3
+# knative.dev/hack v0.0.0-20220913095247-7556452c2b54
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20220909150730-20aabd56be23
+# knative.dev/pkg v0.0.0-20220913150450-501fbd54de3d
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
