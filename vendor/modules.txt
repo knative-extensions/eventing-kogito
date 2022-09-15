@@ -749,10 +749,10 @@ k8s.io/utils/trace
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220913095247-7556452c2b54
+# knative.dev/hack v0.0.0-20220914183605-d1317b08c0c3
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20220913150450-501fbd54de3d
+# knative.dev/pkg v0.0.0-20220914154704-5f66ecf267fe
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
