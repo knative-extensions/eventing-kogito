@@ -744,15 +744,15 @@ k8s.io/utils/net
 k8s.io/utils/pointer
 k8s.io/utils/strings/slices
 k8s.io/utils/trace
-# knative.dev/eventing v0.34.1-0.20220919143309-645fd887ce0c
+# knative.dev/eventing v0.34.1-0.20220926080258-70974588d7d4
 ## explicit
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
-# knative.dev/hack v0.0.0-20220914183605-d1317b08c0c3
+# knative.dev/hack v0.0.0-20220923094413-9b7638704a22
 ## explicit
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20220920224309-df29e2a20aba
+# knative.dev/pkg v0.0.0-20220921024409-d1d5c849073b
 ## explicit
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
