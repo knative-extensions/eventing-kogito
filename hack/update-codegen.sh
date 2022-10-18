@@ -32,7 +32,7 @@ group "Kubernetes Codegen"
 #                  k8s.io/kubernetes. The output-base is needed for the generators to output into the vendor dir
 #                  instead of the $GOPATH directly. For normal projects this can be dropped.
 ${CODEGEN_PKG}/generate-groups.sh "deepcopy,client,informer,lister" \
-  knative.dev/eventing-kogito/pkg/client knative.dev/eventing-kogito/pkg/apis \
+  "knative.dev/eventing-kogito/pkg/client" "knative.dev/eventing-kogito/pkg/apis" \
   "kogito:v1alpha1" \
   --go-header-file ${REPO_ROOT_DIR}/hack/boilerplate/boilerplate.go.txt
 
@@ -40,7 +40,7 @@ group "Knative Codegen"
 
 # Knative Injection
 ${KNATIVE_CODEGEN_PKG}/hack/generate-knative.sh "injection" \
-  knative.dev/eventing-kogito/pkg/client knative.dev/eventing-kogito/pkg/apis \
+  "knative.dev/eventing-kogito/pkg/client" "knative.dev/eventing-kogito/pkg/apis" \
   "kogito:v1alpha1" \
   --go-header-file ${REPO_ROOT_DIR}/hack/boilerplate/boilerplate.go.txt
 
