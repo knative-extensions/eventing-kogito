@@ -1,6 +1,6 @@
 module knative.dev/eventing-kogito
 
-go 1.14
+go 1.18
 
 require (
 	golang.org/x/mod v0.5.1 // indirect
