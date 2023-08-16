@@ -282,8 +282,8 @@ golang.org/x/tools/internal/pkgbits
 golang.org/x/tools/internal/tokeninternal
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
-# gomodules.xyz/jsonpatch/v2 v2.2.0
-## explicit; go 1.12
+# gomodules.xyz/jsonpatch/v2 v2.3.0
+## explicit; go 1.20
 gomodules.xyz/jsonpatch/v2
 # google.golang.org/api v0.136.0
 ## explicit; go 1.19
@@ -820,7 +820,7 @@ k8s.io/utils/net
 k8s.io/utils/pointer
 k8s.io/utils/strings/slices
 k8s.io/utils/trace
-# knative.dev/eventing v0.38.1-0.20230815012542-8e9ab2a7366a
+# knative.dev/eventing v0.38.1-0.20230815095940-29ac3eee64a4
 ## explicit; go 1.19
 knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
@@ -828,7 +828,7 @@ knative.dev/eventing/pkg/apis/sources/v1
 # knative.dev/hack v0.0.0-20230815012940-044c02b7a447
 ## explicit; go 1.18
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20230815012542-6519affc772b
+# knative.dev/pkg v0.0.0-20230815132840-4f651e092853
 ## explicit; go 1.18
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
