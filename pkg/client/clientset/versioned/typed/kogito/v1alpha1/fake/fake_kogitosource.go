@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -36,9 +35,9 @@ type FakeKogitoSources struct {
 	ns   string
 }
 
-var kogitosourcesResource = schema.GroupVersionResource{Group: "kogito.knative.dev", Version: "v1alpha1", Resource: "kogitosources"}
+var kogitosourcesResource = v1alpha1.SchemeGroupVersion.WithResource("kogitosources")
 
-var kogitosourcesKind = schema.GroupVersionKind{Group: "kogito.knative.dev", Version: "v1alpha1", Kind: "KogitoSource"}
+var kogitosourcesKind = v1alpha1.SchemeGroupVersion.WithKind("KogitoSource")
 
 // Get takes name of the kogitoSource, and returns the corresponding kogitoSource object, and an error if there is any.
 func (c *FakeKogitoSources) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.KogitoSource, err error) {
