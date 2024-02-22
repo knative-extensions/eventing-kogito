@@ -9,9 +9,9 @@ require (
 	k8s.io/api v0.29.2
 	k8s.io/apimachinery v0.29.2
 	k8s.io/client-go v0.29.2
-	knative.dev/eventing v0.40.1-0.20240221145533-f8cddc451c9b
+	knative.dev/eventing v0.40.1-0.20240221204544-fcadaaa335b1
 	knative.dev/hack v0.0.0-20240221160411-fe1f2b48a69a
-	knative.dev/pkg v0.0.0-20240221065059-9f033a7b77f7
+	knative.dev/pkg v0.0.0-20240221180044-bea88256cb23
 )
 
 require (
@@ -21,7 +21,7 @@ require (
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/blendle/zapdriver v1.3.1 // indirect
 	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
-	github.com/cloudevents/sdk-go/v2 v2.13.0 // indirect
+	github.com/cloudevents/sdk-go/v2 v2.15.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
