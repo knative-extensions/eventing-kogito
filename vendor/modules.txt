@@ -843,10 +843,10 @@ knative.dev/eventing/pkg/apis/sources
 knative.dev/eventing/pkg/apis/sources/config
 knative.dev/eventing/pkg/apis/sources/v1
 knative.dev/eventing/pkg/eventingtls
-# knative.dev/hack v0.0.0-20240327131430-b985a5ba4ed9
+# knative.dev/hack v0.0.0-20240327150553-47368d631660
 ## explicit; go 1.18
 knative.dev/hack
-# knative.dev/pkg v0.0.0-20240327130924-2d1662ad2ee1
+# knative.dev/pkg v0.0.0-20240327140624-1ca1f09c329e
 ## explicit; go 1.21
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
