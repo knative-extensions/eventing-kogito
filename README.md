@@ -1,3 +1,6 @@
+> [!WARNING]  
+> This extension is now deprecated. Please use [SonataFlow](https://sonataflow.org/serverlessworkflow/main/cloud/operator/configuring-knative-eventing-resources.html) instead.
+
 # Knative Eventing Kogito
 
 **[These components are ALPHA](https://github.com/knative/community/tree/main/mechanics/MATURITY-LEVELS.md)**
